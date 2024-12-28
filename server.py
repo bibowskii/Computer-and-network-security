@@ -34,6 +34,7 @@ def handle_client(client_socket):
 
                 username = sec_modules.symmetric_decrypt(des_key, encrypted_username, sec_modules.hashes.SHA256).decode()
                 password = sec_modules.symmetric_decrypt(des_key, encrypted_password, sec_modules.hashes.SHA256).decode()
+                sec_modules.store_user_credentials(username, password)
 
                 # Register the user
                 success = sec_modules.register(username, password)
@@ -44,7 +45,6 @@ def handle_client(client_socket):
                 # Receive encrypted username and password
                 encrypted_username = client_socket.recv(1024)
                 encrypted_password = client_socket.recv(1024)
-
                 username = sec_modules.symmetric_decrypt(des_key, encrypted_username, sec_modules.hashes.SHA256).decode()
                 password = sec_modules.symmetric_decrypt(des_key, encrypted_password, sec_modules.hashes.SHA256).decode()
 
